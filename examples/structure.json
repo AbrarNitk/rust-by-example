@@ -41,12 +41,18 @@
   ] },
   { "id": "tuples", "title": "Tuples", "children": null },
   { "id": "match", "title": "Pattern matching", "children": [
-      { "id": "guard", "title": "Destructuring and guards", "children": null }
+      { "id": "guard", "title": "Destructuring and guards", "children": null },
+      { "id": "struct", "title": "Destructuring structs", "children": null }
   ] },
   { "id": "structs", "title": "Structures", "children": [
       { "id": "visibility", "title": "Visibility", "children": null }
   ] },
-  { "id": "generics", "title": "Generics", "children": null },
+  { "id": "generics", "title": "Generics", "children": [
+      { "id": "impl", "title": "Implementation", "children": null },
+      { "id": "phantom", "title": "Phantom types", "children": [
+          { "id": "units", "title": "Unit conversions", "children": null }
+      ] }
+  ] },
   { "id": "box", "title": "Box, stack and heap", "children": null },
   { "id": "raii", "title": "RAII", "children": null },
   { "id": "move", "title": "Ownership and moves", "children": [
@@ -68,7 +74,7 @@
   { "id": "enum", "title": "Enums", "children": [
       { "id": "c-like", "title": "C-like", "children": null }
   ] },
-  { "id": "fail", "title": "`fail!`", "children": null },
+  { "id": "panic", "title": "`panic!`", "children": null },
   { "id": "option", "title": "`Option`", "children": null },
   { "id": "array", "title": "Arrays and Slices", "children": null },
   { "id": "trait", "title": "Traits", "children": [
@@ -102,8 +108,15 @@
   { "id": "fs", "title": "Filesystem Operations", "children": null },
   { "id": "staging", "title": "Staging Area", "children": [
     { "id": "bench", "title": "Benchmarking", "children": null  },
+    { "id": "comment", "title": "Comments", "children": [
+        { "id": "doc-comment", "title": "Doc Comments", "children": null }
+    ] },
     { "id": "ffi", "title": "Foreign Function Interface", "children": null  },
     { "id": "macros", "title": "macro_rules!", "children": null  },
+    { "id": "arg", "title": "Program arguments", "children": [
+        { "id": "matching", "title": "Argument parsing", "children": null },
+        { "id": "getopts", "title": "`getopts`", "children": null }
+    ] },
     { "id": "rand", "title": "Random", "children": null  },
     { "id": "simd", "title": "SIMD", "children": null  },
     { "id": "test", "title": "Testing", "children": null  },
@@ -116,14 +129,11 @@
     { "id": "fmt", "title": "Formatting", "children": null },
     { "id": "hash", "title": "HashMap", "children": [
         { "id": "alt-key-types", "title": "Alternate/custom key types", "children": null},
-        { "id": "hashset", "title": "HashSet", "children": null },
-        { "id": "smallintmap", "title": "SmallIntMap", "children": null }
+        { "id": "hashset", "title": "HashSet", "children": null }
     ] }
   ] },
   { "id": "todo", "title": "TODO", "children": [
-    { "id": "arg", "title": "Program arguments", "children": null },
     { "id": "assert", "title": "assert! and debug_assert!", "children": null },
-    { "id": "comment", "title": "Comments", "children": null },
     { "id": "green", "title": "Green threads", "children": null },
     { "id": "log", "title": "Logging", "children": null },
     { "id": "rc", "title": "Reference counting", "children": null },

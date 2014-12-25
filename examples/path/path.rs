@@ -1,3 +1,5 @@
+use std::io::fs::PathExtensions;
+
 fn main() {
     // Create a `Path` from an `&'static str`
     let path = Path::new(".");
@@ -22,7 +24,7 @@ fn main() {
 
     // `stat` returns an IoResult<FileStat> === Result<FileStat, IoError>
     let stat = match path.stat() {
-        Err(why) => fail!("{}", why.desc),
+        Err(why) => panic!("{}", why.desc),
         Ok(stat) => stat,
     };
 
@@ -34,7 +36,7 @@ fn main() {
 
     // Convert the path into a string slice
     match new_path.as_str() {
-        None => fail!("new path is not a valid UTF-8 sequence"),
+        None => panic!("new path is not a valid UTF-8 sequence"),
         Some(s) => println!("new path is {}", s),
     }
 }

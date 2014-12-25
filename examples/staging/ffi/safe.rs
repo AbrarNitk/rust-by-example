@@ -1,20 +1,36 @@
-extern crate num;
-
-use num::complex::{Complex,Complex32};
+use std::fmt;
 
 #[link(name = "m")]
 extern {
-    fn ccosf(z: Complex<f32>) -> Complex<f32>;
+    fn ccosf(z: Complex) -> Complex;
 }
 
 // safe wrapper
-fn cos(z: Complex32) -> Complex32 {
+fn cos(z: Complex) -> Complex {
     unsafe { ccosf(z) }
 }
 
 fn main() {
-    // z = -1 + 0i
-    let z = Complex::new(0.0, 1.0f32);
+    // z = 0 + 1i
+    let z = Complex { re: 0., im: 1. };
 
     println!("cos({}) = {}", z, cos(z));
+}
+
+// Minimal implementation of single precision complex numbers
+#[repr(C)]
+#[deriving(Copy)]
+struct Complex {
+    re: f32,
+    im: f32,
+}
+
+impl fmt::Show for Complex {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        if self.im < 0. {
+            write!(f, "{}-{}i", self.re, -self.im)
+        } else {
+            write!(f, "{}+{}i", self.re, self.im)
+        }
+    }
 }

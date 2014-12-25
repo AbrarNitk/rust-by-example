@@ -1,11 +1,11 @@
-use std::io::UserRWX;
+use std::io::USER_RWX;
 use std::io::fs;
 use std::io::process::{Command,ProcessOutput};
 use std::io::{File,Truncate,Write};
 use std::os;
 
 pub fn mkdir(path: &Path) {
-    match fs::mkdir_recursive(path, UserRWX) {
+    match fs::mkdir_recursive(path, USER_RWX) {
         Err(_) => {},
         Ok(_) => {},
     }
@@ -22,7 +22,8 @@ pub fn read(path: &Path) -> Result<String, String> {
 }
 
 pub fn run(prefix: &str, id: &str, src: &str) -> Result<String, String> {
-    let cwd = os::getcwd();
+    let cwd = os::getcwd().unwrap();
+    // Assume that the current working directory actually exists
     let out_dir = cwd.join(format!("bin/{}/{}", prefix, id));
 
     let mut cmd = Command::new("rustc");
@@ -42,7 +43,7 @@ pub fn run(prefix: &str, id: &str, src: &str) -> Result<String, String> {
 
     match Command::new(&executable).output() {
         Err(_) => Err(format!("couldn't find {}", executable.display())),
-        Ok(ProcessOutput { error: error, output: output, status: status }) => {
+        Ok(ProcessOutput { error, output, status }) => {
             let mut s = String::from_utf8(output).unwrap();
             if !status.success() {
                 s.push_str(String::from_utf8(error).unwrap().as_slice());

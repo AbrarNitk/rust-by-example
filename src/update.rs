@@ -1,3 +1,4 @@
+#![deny(warnings)]
 #![feature(phase)]
 
 extern crate regex;
@@ -6,6 +7,7 @@ extern crate regex_macros;
 extern crate serialize;
 
 use example::Example;
+use std::thread::Thread;
 
 mod example;
 mod file;
@@ -17,13 +19,13 @@ fn main() {
     let (tx, rx) = channel();
 
     let mut nexamples = 0;
-    for (i, example) in examples.move_iter().enumerate() {
+    for (i, example) in examples.into_iter().enumerate() {
         let tx = tx.clone();
         let count = example.count();
 
-        spawn(proc() {
+        Thread::spawn(move || {
             example.process(vec!(i + 1), tx, 0, String::new());
-        });
+        }).detach();
 
         nexamples += count;
     }
@@ -34,13 +36,13 @@ fn main() {
 
     entries.sort_by(|&(ref i, _), &(ref j, _)| i.cmp(j));
 
-    let summary = entries.move_iter()
+    let summary = entries.into_iter()
                          .map(|(_, s)| s)
                          .collect::<Vec<String>>()
                          .connect("\n");
 
     match file::write(&Path::new("stage/SUMMARY.md"), summary.as_slice()) {
-        Err(why) => fail!("{}", why),
+        Err(why) => panic!("{}", why),
         Ok(_) => {},
     }
 }

@@ -8,7 +8,7 @@ fn main() {
     println!("Initial vector: {}", xs);
 
     // Insert new element at the end of the vector
-    println!("Push 4 into the vector")
+    println!("Push 4 into the vector");
     xs.push(4);
     println!("Vector: {}", xs);
 
@@ -19,12 +19,12 @@ fn main() {
     // The `len` method yields the current size of the vector
     println!("Vector size: {}", xs.len());
 
-    // Indexing is done using the `get` method (indexing starts at 0)
-    println!("Second element: {}", xs.get(1));
+    // Indexing is done using the square brackets (indexing starts at 0)
+    println!("Second element: {}", xs[1]);
 
     // `pop` removes the last element from the vector and returns it
     println!("Pop last element: {}", xs.pop());
 
     // Out of bounds indexing yields a task failure
-    println!("Fourth element: {}", xs.get(3));
+    println!("Fourth element: {}", xs[3]);
 }

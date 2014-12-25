@@ -22,6 +22,7 @@ fn main() {
             n / 2
             // TODO ^ Try suppressing this expression with a semicolon
         };
+    //   ^ Don't forget to put a semicolon here! All the `let` bindings need it
 
     println!("{} -> {}", n, big_n);
 }

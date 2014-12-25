@@ -1,5 +1,6 @@
 use file;
 use playpen;
+use std::iter::repeat;
 
 pub struct Markdown<'a, 'b> {
     content: String,
@@ -30,8 +31,9 @@ impl<'a, 'b> Markdown<'a, 'b> {
             format!("{}", x)
         }).collect::<Vec<String>>().connect(".");
 
+        let len = number.len();
         let content = format!("{} {} {}\n\n{}",
-                              "#".repeat(number.len()),
+                              repeat("#").take(len).collect::<String>(),
                               version,
                               title,
                               body);
@@ -53,7 +55,7 @@ impl<'a, 'b> Markdown<'a, 'b> {
             match re.captures(line) {
                 None => {},
                 Some(captures) => {
-                    let src = captures.at(1);
+                    let src = captures.at(1).unwrap();
                     let input = format!("{{{}}}", src);
                     let p = format!("examples/{}/{}/{}", prefix, id, src);
                     let output = match file::read(&Path::new(p.as_slice())) {
@@ -62,7 +64,7 @@ impl<'a, 'b> Markdown<'a, 'b> {
                         },
                         Ok(string) => {
                             format!("``` rust\n// {}\n{}```",
-                                    captures.at(1), string)
+                                    src, string)
                         }
                     };
 
@@ -71,7 +73,7 @@ impl<'a, 'b> Markdown<'a, 'b> {
             }
         }
 
-        for (input, output) in table.move_iter() {
+        for (input, output) in table.into_iter() {
             self.content = self.content.replace(input.as_slice(),
                                                 output.as_slice());
         }
@@ -95,7 +97,7 @@ impl<'a, 'b> Markdown<'a, 'b> {
                 Some(captures) => {
                     let src = captures.at(1);
                     let input = format!("{{{}.out}}", src);
-                    let s = try!(file::run(prefix, id, src));
+                    let s = try!(file::run(prefix, id, src.unwrap()));
                     let s = format!("```\n$ rustc {0}.rs && ./{0}\n{1}```",
                                     src, s);
 
@@ -104,7 +106,7 @@ impl<'a, 'b> Markdown<'a, 'b> {
             }
         }
 
-        for (input, output) in table.move_iter() {
+        for (input, output) in table.into_iter() {
             self.content = self.content.replace(input.as_slice(),
                                                 output.as_slice());
         }
@@ -129,8 +131,9 @@ impl<'a, 'b> Markdown<'a, 'b> {
                         once_ = true;
                     }
 
-                    let input = format!("{{{}.play}}", captures.at(1));
-                    let src = format!("{}.rs", captures.at(1));
+                    let srcbase = captures.at(1).unwrap();
+                    let input = format!("{{{}.play}}", srcbase);
+                    let src = format!("{}.rs", srcbase);
                     let p = format!("examples/{}/{}/{}", prefix, id, src);
                     let output = match file::read(&Path::new(p.as_slice())) {
                         Err(_) => {
@@ -146,7 +149,7 @@ impl<'a, 'b> Markdown<'a, 'b> {
             }
         }
 
-        for (input, output) in table.move_iter() {
+        for (input, output) in table.into_iter() {
             self.content = self.content.replace(input.as_slice(),
                                                 output.as_slice());
         }

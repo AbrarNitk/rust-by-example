@@ -1,8 +1,8 @@
 // Re-implementation of integer division (/)
 fn division(dividend: int, divisor: int) -> int {
     if divisor == 0 {
-        // Division by zero triggers a task failure
-        fail!("division by zero");
+        // Division by zero triggers a task panic
+        panic!("division by zero");
     } else {
         dividend / divisor
     }

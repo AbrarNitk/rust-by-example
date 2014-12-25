@@ -1,6 +1,7 @@
 use common::SOCKET_PATH;
 use std::io::fs;
-use std::io::net::unix::UnixListener;
+use std::io::fs::PathExtensions;
+use std::io::net::pipe::UnixListener;
 use std::io::{Acceptor,Listener};
 
 mod common;
@@ -15,7 +16,7 @@ fn main() {
 
     // Bind to socket
     let stream = match UnixListener::bind(&socket) {
-        Err(_) => fail!("failed to bind socket"),
+        Err(_) => panic!("failed to bind socket"),
         Ok(stream) => stream,
     };
 
